@@ -4,30 +4,26 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
-import ImageSlider from "react-image-comparison-slider";
+import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
+
+import img_before from "../stylesheets/images/before.jpg";
+import img_after from "../stylesheets/images/after.jpg";
 
 const Slider = props => (
-  <div style={{ width: 700, height: 450 }}>
-    <ImageSlider
-      image1={props.img_before}
-      image2={props.img_after}
-      sliderWidth={3}
-      sliderColor="green"
-      handleColor="green"
-      handleBackgroundColor="white"
+  <div className="container mx-auto flex flex-col px-5 py-24 justify-center items-center">
+    <ReactCompareSlider
+    itemOne={<ReactCompareSliderImage src={detection_frame.dataset.before || img_before} alt="Image one" />}
+    itemTwo={<ReactCompareSliderImage src={detection_frame.dataset.after ||img_after}  alt="Image two" />}
     />
   </div>
 )
 
 Slider.defaultProps = {
-  img_before: 'https://images.unsplash.com/photo-1448375240586-882707db888b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80',
-  img_after: 'https://images.unsplash.com/photo-1448375240586-882707db888b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80'
+  img_before: img_before,
+  img_after: img_after
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Slider />,
-    document.body.appendChild(document.createElement('div')),
-  )
+  const detection_frame = document.querySelector('#detection_frame')
+  ReactDOM.render(<Slider />, detection_frame)
 })

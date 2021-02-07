@@ -78,6 +78,10 @@ GEM
     ffi (1.14.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    hashid-rails (1.4.1)
+      activerecord (>= 4.0)
+      hashids (~> 1.0)
+    hashids (1.0.5)
     i18n (1.8.8)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
@@ -94,6 +98,7 @@ GEM
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
     mimemagic (0.3.5)
+    mini_magick (4.11.0)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
     minitest (5.14.3)
@@ -102,6 +107,9 @@ GEM
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    numo-narray (0.9.1.9)
+    onnxruntime (0.5.2)
+      ffi
     pg (1.2.3)
     public_suffix (4.0.6)
     puma (4.3.7)
@@ -203,8 +211,12 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
+  hashid-rails (~> 1.0)
   jbuilder (~> 2.7)
   listen (~> 3.2)
+  mini_magick
+  numo-narray
+  onnxruntime
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)
