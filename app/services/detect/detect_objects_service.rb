@@ -22,35 +22,49 @@ module Detect
     def process(image)
       img = MiniMagick::Image.read(image.download)
       image_size = [[img.height, img.width]]
+      image_preprocessing(img)
+      img_data = SFloat.cast(img.get_pixels)
+      img_data /= 255.0
+      output = predict(model, get_image_data(img_data), image_size)
+      boxes, scores, indices = output.values
+      results = get_results(indices, scores, boxes)
+      draw_after_image(img, results, image)
+    end
+
+    def predict(model, image_data, image_size)
+      model.predict({input_1: image_data, image_shape: image_size})
+    end
+
+    def get_image_data(img_data)
+      img_data.transpose(2, 0, 1)
+              .expand_dims(0)
+              .to_a
+    end
+
+    def image_preprocessing(img)
       img.combine_options do |b|
         b.resize '416x416'
         b.gravity 'center'
         b.background 'transparent'
         b.extent '416x416'
       end
-      img_data = SFloat.cast(img.get_pixels)
-      img_data /= 255.0
-      image_data = img_data.transpose(2, 0, 1)
-                          .expand_dims(0)
-                          .to_a
-      # inference
-      output = model.predict({input_1: image_data, image_shape: image_size})
+    end
 
-      # postprocessing
-      boxes, scores, indices = output.values
-      results = indices.map do |idx|
+    def get_results(indices, scores, boxes)
+      indices.map do |idx|
         { class: idx[1],
           score: scores[idx[0]][idx[1]][idx[2]],
           box: boxes[idx[0]][idx[2]] }
       end
-      # visualization
+    end
+
+    def draw_after_image(img, results, image)
       img = MiniMagick::Image.open(image)
       img.colorspace 'gray'
       results.each do |r|
         hue = r[:class] * 100 / 80.0
         label = labels[r[:class]]
         score = r[:score]
-        # draw box
         y1, x1, y2, x2 = r[:box].map(&:round)
         img.combine_options do |c|
           c.draw        "rectangle #{x1}, #{y1}, #{x2}, #{y2}"
@@ -58,7 +72,6 @@ module Detect
           c.stroke      "hsla(#{hue}%, 70%, 60%, 60%)"
           c.strokewidth (score * 3).to_s
         end
-        # draw text
         img.combine_options do |c|
           c.draw "text #{x1}, #{y1 - 5} \"#{label}\""
           c.fill 'white'
