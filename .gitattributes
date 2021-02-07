@@ -1,0 +1,2 @@
+*.onnx filter=lfs diff=lfs merge=lfs -text
+app/services/detect/yolov3.onnx filter=lfs diff=lfs merge=lfs -text
