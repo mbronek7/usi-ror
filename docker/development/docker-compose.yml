@@ -1,0 +1,42 @@
+version: '3.8'
+
+x-common:
+  &common-settings
+  build:
+    context: ../../.
+    dockerfile: ./docker/development/Dockerfile
+  volumes:
+    - ./docker_data/log:/app/log
+    - ../../.:/usi
+  env_file: .env
+  restart: always
+
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - ./docker_data/db:/var/lib/postgresql/data
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: usi
+      POSTGRES_PASSWORD: usi
+    ports:
+      - 5432
+    healthcheck:
+      test: pg_isready -U usi -h 127.0.0.1
+      interval: 5s
+
+  app:
+    << : *common-settings
+    command: bash -c "rm -f tmp/pids/server.pid && (bundle check || bundle install) && yarn install && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - 3000
+    depends_on:
+      db:
+        condition: service_healthy
+  webserver:
+    build: ./nginx
+    ports:
+      - "80:80"
+    links:
+      - app:app

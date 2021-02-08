@@ -23,6 +23,9 @@ default: &default
 
 development:
   <<: *default
+  host: <%= ENV.fetch("DATABASE_URL") %>
+  username: <%= ENV.fetch('POSTGRES_USER') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
   database: usi_ror_development
 
   # The specified database role being used to connect to postgres.
@@ -55,9 +58,9 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: usi_ror_test
+# test:
+#   <<: *default
+#   database: usi_ror_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -78,8 +81,8 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
-  <<: *default
-  database: usi_ror_production
-  username: usi_ror
-  password: <%= ENV['USI_ROR_DATABASE_PASSWORD'] %>
+# production:
+#   <<: *default
+#   database: usi_ror_production
+#   username: usi_ror
+#   password: <%= ENV['USI_ROR_DATABASE_PASSWORD'] %>

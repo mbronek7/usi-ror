@@ -1,24 +1,13 @@
-# README
+# ReadMe
+# USI UE
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To be covered :)
 
-Things you may want to cover:
+## Table of contents
 
-* Ruby version
+  - [Summary](#summary)
+  - [Setup and Documentation](#setup-and-documentation)
 
-* System dependencies
+## Setup and Documentation
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Please read [Local Setup](docs/INSTALLATION.md) to build your own local enviroment.

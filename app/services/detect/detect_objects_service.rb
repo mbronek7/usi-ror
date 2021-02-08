@@ -68,7 +68,7 @@ module Detect
         y1, x1, y2, x2 = r[:box].map(&:round)
         img.combine_options do |c|
           c.draw        "rectangle #{x1}, #{y1}, #{x2}, #{y2}"
-          c.fill        "hsla(#{hue}%, 20%, 80%, 42%)"
+          c.fill        "hsla(#{hue}%, 20%, 80%, 0.35)"
           c.stroke      "hsla(#{hue}%, 70%, 60%, 60%)"
           c.strokewidth (score * 3).to_s
         end
