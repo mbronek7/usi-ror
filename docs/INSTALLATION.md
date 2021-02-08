@@ -22,7 +22,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
 ```sh
-git clone https://github.com/mbronek7/usi-ue.git
+git clone https://github.com/mbronek7/usi-ror.git
 ```
 2. From your project directory create docker network
 ```sh
